@@ -1,0 +1,116 @@
+In Eclipse I have created 2 services named "TransactionsService" and "Transactions".
+In Transactions Service I have declared all the required variables and methods(like GET,PUT,SUM).
+In TransactionService I have created a list object "transactionList" and populated all the values in to that.
+Here I have written 4 methods for Creating TransactionId,Getting the transaction details, getting the transactiontypes and getting the sum of amounts of the transactions.
+
+
+
+Testing Steps:
+In soapUI- Import the TransactionServiceTestSuite.
+
+Case1:
+Create Transactions
+
+First we have to Create a Trasaction by using Create Transactions Service(PUT).(Here a new transaction is created with transactionId,amount, type and ParentId(optional).
+ 
+I have added a new transaction like below:
+
+Input:
+
+/TransactionServices/transactionservice/transaction/211
+
+output:
+
+Transaction [transaction_id=211, amount=100.0, type=cars, parent_id=0]]]
+
+TransactionId can be changed in the "Resource"section of the URI above.
+
+
+Case2:
+
+Getting TransactionsbyID:
+
+Here , by giving the required transction ID in the URL,we will get the details about that transaction .
+
+Input:
+
+/TransactionServices/transactionservice/transaction/100
+
+output:
+{
+   "type": "cars",
+   "transaction_id": 100,
+   "amount": 100,
+   "parent_id": 0
+}
+Case3:
+
+ Get TransactioByType:
+
+Here, by giving the desired Type in the URL, we will get details about that transactiontype;
+
+INput in URL:
+/TransactionServices/transactionservice/types/shopping
+
+
+Output in JSON:
+
+[{
+   "type": "shopping",
+   "amount": 20,
+   "parent_id": 100,
+   "transaction_id": 110
+}]
+
+
+
+Case4:
+
+Get Transactions SUM by Id
+
+Not all transactions can have parentId(as it is optional).
+SO , here for the transactions whose TransactionId= parentId of another, the sum of amount will be calculated.
+
+And for the transactions which has no parentId, then the sum of that transaction will be the amount of that particluar Transaction.
+
+Input:
+
+/TransactionServices/transactionservice/sum/1
+
+
+Output:
+{"sum": 100}
+
+Input:
+
+/TransactionServices/transactionservice/sum/2
+
+Output:
+
+{"sum": 300}
+
+----Explanation---
+
+
+
+Details Of TransactionId=1
+
+{
+   "type": "cars",
+   "transaction_id": 1,
+   "amount": 100,
+   "parent_id": 2
+}
+
+
+
+Details Of TransactionId=2
+
+{
+   "type": "cars",
+   "transaction_id": 2,
+   "amount": 200,
+   "parent_id": 3
+}
+
+Hence all the test cases are tested succesfully.
